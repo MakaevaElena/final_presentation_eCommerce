@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h2>CI/CD GitHub Actions</h2>
+				<p>Makaeva Elena</h4>
+
+			</section>
+			<section>
+				<h2>CI/CD</h3>
+					<p> is an automation process for developers</p>
+					<ul>
+						<img class="fragment fade-up" src="./img/ci_cd.png" alt="CI CD Pipeline" width="600" height="300">
+						<li class="fragment fade-up">CI - Continuous Integration</li>
+						<li class="fragment fade-up">CD - Continuous Delivery</li>
+					</ul>
+			</section>
+
+			<section>
+				<h2>GitHub Actions</h3>
+					<section>
+						<p> is a CI/CD platform that allows you to automate your <span class="fragment highlight-red">build</span>,
+							<span class="fragment highlight-red">test</span>, and <span
+								class="fragment highlight-red">deployment</span>
+							pipeline
+						</p>
+						<img class="fragment fade-up" src="./img/Github_actions_1.jpg" alt="CI CD Pipeline" width="800"
+							height="300">
+					</section>
+					<section>
+						<p> Automate tasks within your software development life cycle</p>
+						<img class="fragment fade-up" src="./img/Github_actions_2.png" alt="CI CD Pipeline" width="800"
+							height="300">
+					</section>
+					<section>
+						<img class="fragment fade-up" src="./img/Github_actions.jpg" alt="Github_actions" width="600" height="300">
+					</section>
+			</section>
+
+			<section>
+				<h2>Events</h3>
+					<p class="fragment fade-in">is trigger GitHub to react</p>
+					<div class="fragment fade-in">
+						<img src="./img/events.jpg" alt="Github_actions" width="200" height="100">
+						<ul>
+							<li class="fragment highlight-red">Push</li>
+							<li class="fragment highlight-red">Pull_request</li>
+							<li class="fragment highlight-red">Fork</li>
+							<li class="fragment highlight-red">Issues</li>
+							<li class="fragment highlight-red">Release</li>
+						</ul>
+						<pre class="fragment fade-in"><code data-line-numbers="1" class="yaml">
+							on: [push]
+						</code></pre>
+					</div>
+			</section>
+
+
+			<section>
+				<h2>workflow</h3>
+					<img src="./img/workflows.jpg" alt="Github_actions" width="200" height="100">
+					<p class="fragment fade-in">is the name of the configuration that contains all the jobs to execute</p>
+					<pre class="fragment fade-in"><code data-line-numbers="1" class="yaml">
+							name: my-workflow
+						</code></pre>
+			</section>
+
+			<section>
+				<h2>jobs</h3>
+					<img src="./img/jobs.jpg" alt="Github_actions" width="200" height="100">
+					<p class="fragment fade-in">is a container that holds all the Steps to perform</p>
+					<pre class="fragment fade-in"><code data-line-numbers="1" class="yaml">
+#Configure jobs below
+jobs:
+  #Name the Job by setting a key value
+  my-job:
+      name: My custom job
+      # Set the operation system to use on during the Job
+      runs-on: ubuntu-latest
+      # Configure the steps that are part of the job
+      steps: #Comes later in the article
+						</code></pre>
+
+			</section>
+
+			<section>
+				<h2>steps</h3>
+					<img src="./img/steps.jpg" alt="Github_actions" width="200" height="100">
+					<p class="fragment fade-in">Jobs can contain many steps. A step is an actual action to perform</p>
+					<pre class="fragment fade-in"><code data-line-numbers="1" class="yaml">
+steps: 
+  - name: Set up Go 1.x
+    uses: actions/setup-go@v2
+    with:
+       go-version: ^1.15.5
+  - name: Check out code from the repository
+    uses: actions/checkout@v2
+  - name: Run a terminal command
+    run: echo "Hello World" && pwd
+						</code></pre>
+			</section>
+
+			<section>
+				<h2>GitHub Actions</h3>
+					<img src="./img/Github_actions.jpg" alt="Github_actions" width="600" height="300">
+			</section>
+
+			<section>
+				<h3>Create workflow</h3>
+				<section></section>
+				<section>
+					<p>GitHub Actions are only available for free if the repository is <span
+							class="fragment highlight-red">public</span></p>
+					<img src="./img/create_workflow_1.jpg" alt="create_workflow" width="900">
+				</section>
+				<section>
+					<p>press the <span class="fragment highlight-red">“Set up this workflow”</span></o>
+						<img src="./img/create_workflow_2.jpg" alt="create_workflow" width="900">
+				</section>
+				<section>
+					<p>Here we can edit our workflow and commit it</p>
+					<img src="./img/create_workflow_3.jpg" alt="create_workflow" width="900">
+				</section>
+				<section>
+					<h4>If you in local repository:</h3>
+						<br>
+						<ol>
+							<li>create the <span class="fragment highlight-red">.github/workflows/</span></li>
+							<li>In the .github/workflows/ directory, create a new file called
+								<span class="fragment highlight-red">learn-github-actions.yml</span>
+							</li>
+						</ol>
+				</section>
+				<section>
+					<p>Add the following code</p>
+					<pre><code data-line-numbers="1" class="yaml">
+YAML
+name: learn-github-actions
+run-name: ${{ github.actor }} is learning GitHub Actions
+on: [push, workflow_dispatch]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: npm install -g bats
+      - run: bats -v
+						</code></pre>
+				</section>
+				<section>
+					<p>You can use helpful hints</p>
+					<img src="./img/create_workflow_4.jpg" alt="create_workflow" width="500">
+				</section>
+				<section>
+					<p>When you commit and push the changed configuration</p>
+					<div class="r-stack">
+						<img class="fragment fade-out" src="./img/create_workflow_5.jpg" alt="create_workflow" width="600">
+						<img class="fragment" src="./img/create_workflow_6.jpg" alt="create_workflow" width="800">
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<h3>Run workflow</h3>
+				<section>
+					<p>Go to 'Actions' Tab</p>
+					<img src="./img/run_workflow_1.jpg" alt="run_workflow" width="1200">
+				</section>
+				<section>
+					<p>And run workflow</p>
+					<img src="./img/run_workflow_2.jpg" alt="run_workflow" width="1200">
+				</section>
+				<section>
+					<p>You should see a job either in Queue or finished.</p>
+					<img src="./img/run_workflow_3.jpg" alt="run_workflow" width="1200">
+				</section>
+				<section>
+					<p>More in-depth statuses about all the jobs inside the workflow</p>
+					<img src="./img/run_workflow_4.jpg" alt="run_workflow" width="1200">
+				</section>
+				<section>
+					<p>Detailed information and output from each step.</p>
+					<img src="./img/run_workflow_5.jpg" alt="run_workflow" width="1000">
+				</section>
+				<section>
+					<p>You can see all the process in the step</p>
+					<img src="./img/run_workflow_6.jpg" alt="run_workflow" width="1000">
+				</section>
+				<section>
+					<p>You can to modify the configuration, press edit to begin changing it.
+					</p>
+					<img src="./img/run_workflow_8.jpg" alt="run_workflow" width="1000">
+				</section>
+			</section>
+
+			<section>
+				<h3>Marketplace</h3>
+				<section>
+					<p class="fragment fade-in">https://github.com/marketplace -> `Actions` tab</p>
+					<img class="fragment fade-in" src="./img/marketplace_1.jpg" alt="marketplace" width="1000">
+				</section>
+				<section>
+					<p>Yes, they do provide us with pre-built configurations to perform almost
+						anything!</p>
+					<img src="./img/marketplace_2.jpg" alt="marketplace" width="800">
+				</section>
+				<section>
+					<p>Search for anything you’re interested in and add it to configuration</p>
+					<img src="./img/marketplace_3.jpg" alt="marketplace" width="800">
+				</section>
+
+			</section>
+
+			<section>
+				<p>sources</p>
+				<ol>
+					<li><a
+							href="https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions#the-components-of-github-actions">Understanding
+							GitHub Actions</a>
+					</li>
+					<li><a href="https://programmingpercy.tech/blog/github-actions-in-action/">GitHub Actions In Action</a>
+					</li>
+				</ol>
+				<iframe src="https://programmingpercy.tech/blog/github-actions-in-action/" frameborder="0"></iframe>
+			</section>
+
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: true,
+				transition: 'fade',
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+			});
+		</script>
+</body>
+
+</html>
